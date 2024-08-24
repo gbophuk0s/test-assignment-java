@@ -1,0 +1,18 @@
+plugins {
+    id("java")
+}
+
+group = "com.gbophuk0s"
+
+java {
+    sourceCompatibility = JavaVersion.VERSION_21
+    targetCompatibility = JavaVersion.VERSION_21
+}
+
+repositories {
+    mavenCentral()
+}
+
+dependencies {
+}
+
