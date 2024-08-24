@@ -7,9 +7,6 @@ import org.apache.logging.log4j.Logger;
 
 import com.gbophuk0s.test.assignment.core.commandline.CommandlineConfig;
 import com.gbophuk0s.test.assignment.core.commandline.CommandlineProcessor;
-import com.gbophuk0s.test.assignment.core.commandline.TaskProcessorRegistry;
-import com.gbophuk0s.test.assignment.core.commandline.bank.CreateBankTaskProcessor;
-import com.gbophuk0s.test.assignment.core.db.Database;
 
 public class TestAssignmentJavaApplication {
 

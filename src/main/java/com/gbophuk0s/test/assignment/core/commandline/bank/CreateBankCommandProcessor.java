@@ -3,12 +3,12 @@ package com.gbophuk0s.test.assignment.core.commandline.bank;
 import java.util.Map;
 
 import com.gbophuk0s.test.assignment.core.commandline.DataValidationException;
-import com.gbophuk0s.test.assignment.core.commandline.TaskProcessor;
+import com.gbophuk0s.test.assignment.core.commandline.CommandProcessor;
 import com.gbophuk0s.test.assignment.core.model.Bank;
 import com.gbophuk0s.test.assignment.core.service.BankService;
 import com.gbophuk0s.test.assignment.support.Args;
 
-public class CreateBankTaskProcessor implements TaskProcessor {
+public class CreateBankCommandProcessor implements CommandProcessor {
 
     private static final String NAME_PARAMETER = "name";
     private static final String LEGAL_ENTITY_CHARGE_PARAMETER = "legalEntityCharge";
@@ -18,7 +18,7 @@ public class CreateBankTaskProcessor implements TaskProcessor {
 
     private final BankService bankService;
 
-    public CreateBankTaskProcessor(BankService bankService) {
+    public CreateBankCommandProcessor(BankService bankService) {
         super();
 
         this.bankService = bankService;

@@ -1,6 +1,6 @@
 package com.gbophuk0s.test.assignment.core.commandline;
 
-import com.gbophuk0s.test.assignment.core.commandline.bank.CreateBankTaskProcessor;
+import com.gbophuk0s.test.assignment.core.commandline.bank.CreateBankCommandProcessor;
 import com.gbophuk0s.test.assignment.core.service.BankService;
 import com.gbophuk0s.test.assignment.core.service.BankServiceImpl;
 
@@ -19,15 +19,15 @@ public class CommandlineConfig {
         return new CommandlineProcessor(taskProcessorRegistry(), commandlineArgsParser);
     }
 
-    private TaskProcessorRegistry taskProcessorRegistry() {
-        TaskProcessorRegistry result = new TaskProcessorRegistry();
+    private CommandProcessorRegistry taskProcessorRegistry() {
+        CommandProcessorRegistry result = new CommandProcessorRegistry();
 
         registerProcessors(result);
 
         return result;
     }
 
-    private void registerProcessors(TaskProcessorRegistry registry) {
-        registry.register("createBank", new CreateBankTaskProcessor(bankService));
+    private void registerProcessors(CommandProcessorRegistry registry) {
+        registry.register("createBank", new CreateBankCommandProcessor(bankService));
     }
 }

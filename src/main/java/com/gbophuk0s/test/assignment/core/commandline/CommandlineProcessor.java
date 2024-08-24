@@ -9,11 +9,11 @@ public class CommandlineProcessor {
 
     private static final Logger LOGGER = LogManager.getLogger(CommandlineProcessor.class);
 
-    private final TaskProcessorRegistry taskProcessorRegistry;
+    private final CommandProcessorRegistry commandProcessorRegistry;
     private final CommandlineArgsParser commandlineArgsParser;
 
-    public CommandlineProcessor(TaskProcessorRegistry taskProcessorRegistry, CommandlineArgsParser commandlineArgsParser) {
-        this.taskProcessorRegistry = taskProcessorRegistry;
+    public CommandlineProcessor(CommandProcessorRegistry commandProcessorRegistry, CommandlineArgsParser commandlineArgsParser) {
+        this.commandProcessorRegistry = commandProcessorRegistry;
         this.commandlineArgsParser = commandlineArgsParser;
     }
 
@@ -27,7 +27,7 @@ public class CommandlineProcessor {
 
         LOGGER.info("Executing command: {}, arguments: {}", command, args);
 
-        TaskProcessor processor = taskProcessorRegistry.resolve(command);
+        CommandProcessor processor = commandProcessorRegistry.resolve(command);
 
         Map<String, String> arguments = commandlineArgsParser.parse(args);
 
