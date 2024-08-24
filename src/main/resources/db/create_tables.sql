@@ -1,7 +1,3 @@
-DROP TABLE IF EXISTS account;
-DROP TABLE IF EXISTS client;
-DROP TABLE IF EXISTS bank;
-
 CREATE TABLE IF NOT EXISTS bank (
     id                  UUID    NOT NULL,
     name                TEXT    NOT NULL,
