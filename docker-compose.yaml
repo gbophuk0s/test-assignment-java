@@ -1,0 +1,15 @@
+services:
+
+  test-assignment-java-dev-db:
+    image: postgres:13.2
+    env_file:
+      - ./ext/db/db.env
+    volumes:
+      - ./ext/db/create-db-user.sh:/docker-entrypoint-initdb.d/create-db-user.sh:ro
+      - test-assignment-java-dev-db-data:/var/lib/postgresql/data/pgdata
+    ports:
+      - 5432:5432
+    restart: unless-stopped
+
+volumes:
+  test-assignment-java-dev-db-data:
