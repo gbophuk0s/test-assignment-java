@@ -12,13 +12,8 @@ import org.apache.logging.log4j.Logger;
 
 public class Database {
 
-    public static final Database INSTANCE;
-    private static final Logger LOGGER;
-
-    static {
-        LOGGER = LogManager.getLogger(Database.class);
-        INSTANCE = new Database();
-    }
+    private static final Logger LOGGER = LogManager.getLogger(Database.class);
+    public static final Database INSTANCE = new Database();
 
     private final DataSource dataSource;
 
@@ -29,8 +24,11 @@ public class Database {
             DatabaseConfig.USERNAME,
             DatabaseConfig.PASSWORD
         );
+    }
 
-        init();
+    public void init() {
+        createTables();
+        createConstraints();
     }
 
     public Connection openConnection() {
@@ -39,11 +37,6 @@ public class Database {
 
     public void closeConnection(Connection connection) {
         JdbcUtils.closeConnection(connection);
-    }
-
-    private void init() {
-        createTables();
-        createConstraints();
     }
 
     private void createTables() {

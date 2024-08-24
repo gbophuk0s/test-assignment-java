@@ -9,5 +9,5 @@ ALTER TABLE bank
     ADD CONSTRAINT uk_bank UNIQUE (name);
 
 ALTER TABLE account
-    ADD CONSTRAINT fk_account_bank FOREIGN KEY (bank_id) REFERENCES bank(id),
+    ADD CONSTRAINT fk_account_bank FOREIGN KEY (bank_id) REFERENCES bank(id) ON DELETE CASCADE,
     ADD CONSTRAINT fk_account_client FOREIGN KEY (client_id) REFERENCES client(id);

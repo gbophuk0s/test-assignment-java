@@ -4,6 +4,7 @@ import java.sql.Connection;
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.SQLException;
+import java.util.Objects;
 import java.util.Optional;
 import java.util.UUID;
 
@@ -66,9 +67,11 @@ public class BankRepositoryImpl implements CrudRepository<Bank> {
             "WHERE id = ?"
         );
 
-        statement.setString(1, spec.getName());
-        statement.setDouble(2, spec.getLegalEntityCharge());
-        statement.setDouble(3, spec.getIndividualCharge());
+        Bank persisted = getById(connection, id);
+
+        statement.setString(1, Objects.requireNonNullElse(spec.getName(), persisted.getName()));
+        statement.setDouble(2, Objects.requireNonNullElse(spec.getLegalEntityCharge(), persisted.getLegalEntityCharge()));
+        statement.setDouble(3, Objects.requireNonNullElse(spec.getIndividualCharge(), persisted.getIndividualCharge()));
         statement.setObject(4, UUID.fromString(id));
 
         statement.execute();

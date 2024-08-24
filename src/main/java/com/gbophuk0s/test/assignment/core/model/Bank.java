@@ -4,9 +4,9 @@ public class Bank extends AbstractDataObject {
 
     private String name;
 
-    private double legalEntityCharge;
+    private Double legalEntityCharge;
 
-    private double individualCharge;
+    private Double individualCharge;
 
     public Bank() {
     }
@@ -19,19 +19,19 @@ public class Bank extends AbstractDataObject {
         this.name = name;
     }
 
-    public double getLegalEntityCharge() {
+    public Double getLegalEntityCharge() {
         return legalEntityCharge;
     }
 
-    public void setLegalEntityCharge(double legalEntityCharge) {
+    public void setLegalEntityCharge(Double legalEntityCharge) {
         this.legalEntityCharge = legalEntityCharge;
     }
 
-    public double getIndividualCharge() {
+    public Double getIndividualCharge() {
         return individualCharge;
     }
 
-    public void setIndividualCharge(double individualCharge) {
+    public void setIndividualCharge(Double individualCharge) {
         this.individualCharge = individualCharge;
     }
 

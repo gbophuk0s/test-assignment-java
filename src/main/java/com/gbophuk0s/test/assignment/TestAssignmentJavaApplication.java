@@ -7,12 +7,15 @@ import org.apache.logging.log4j.Logger;
 
 import com.gbophuk0s.test.assignment.core.commandline.CommandlineConfig;
 import com.gbophuk0s.test.assignment.core.commandline.CommandlineProcessor;
+import com.gbophuk0s.test.assignment.core.db.Database;
 
 public class TestAssignmentJavaApplication {
 
     private static final Logger LOGGER = LogManager.getLogger(TestAssignmentJavaApplication.class);
 
     public static void main(String[] args) {
+        Database.INSTANCE.init();
+
         CommandlineConfig config = new CommandlineConfig();
         CommandlineProcessor commandlineProcessor = config.commandlineProcessor();
 
