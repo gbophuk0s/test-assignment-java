@@ -1,6 +1,10 @@
+DROP TABLE IF EXISTS account;
+DROP TABLE IF EXISTS client;
+DROP TABLE IF EXISTS bank;
+
 CREATE TABLE IF NOT EXISTS bank (
     id                  UUID    NOT NULL,
-    name                UUID    NOT NULL,
+    name                TEXT    NOT NULL,
     legal_entity_charge NUMERIC NOT NULL,
     individual_charge   NUMERIC NOT NULL,
     CONSTRAINT pk_bank PRIMARY KEY (id)
