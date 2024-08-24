@@ -4,15 +4,27 @@ plugins {
 
 group = "com.gbophuk0s"
 
-java {
-    sourceCompatibility = JavaVersion.VERSION_21
-    targetCompatibility = JavaVersion.VERSION_21
-}
-
 repositories {
     mavenCentral()
 }
 
 dependencies {
+    implementation("org.apache.logging.log4j:log4j-api:2.23.1")
+    implementation("org.apache.logging.log4j:log4j-core:2.23.1")
 }
 
+java {
+    sourceCompatibility = JavaVersion.VERSION_21
+    targetCompatibility = JavaVersion.VERSION_21
+}
+
+jar {
+    def jars = configurations.runtimeClasspath.files.collect { "lib/${it.name}" }
+
+    manifest {
+        attributes([
+                "Main-Class": "com.gbophuk0s.test.assignment.TestAssignmentJavaApplication",
+                "Class-Path": jars.join(" ")
+        ])
+    }
+}
