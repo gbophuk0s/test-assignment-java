@@ -60,10 +60,10 @@ public class BankRepositoryImpl implements CrudRepository<Bank> {
 
     @Override
     public Bank update(Connection connection, String id, Bank spec) throws SQLException {
-        PreparedStatement statement = connection.prepareStatement(
+        PreparedStatement statement = connection.prepareStatement("" +
             "UPDATE bank " +
-                "SET name = ?, legal_entity_charge = ?, individual_charge = ?" +
-                "WHERE id = ?"
+            "SET name = ?, legal_entity_charge = ?, individual_charge = ?" +
+            "WHERE id = ?"
         );
 
         statement.setString(1, spec.getName());
