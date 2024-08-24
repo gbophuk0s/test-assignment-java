@@ -7,14 +7,15 @@ import com.gbophuk0s.test.assignment.core.db.ConnectionCallback;
 import com.gbophuk0s.test.assignment.core.db.Database;
 import com.gbophuk0s.test.assignment.core.db.TransactionTemplate;
 import com.gbophuk0s.test.assignment.core.model.Account;
+import com.gbophuk0s.test.assignment.core.model.AccountCompoundId;
+import com.gbophuk0s.test.assignment.core.repository.AccountRepository;
 import com.gbophuk0s.test.assignment.core.repository.AccountRepositoryImpl;
-import com.gbophuk0s.test.assignment.core.repository.CrudRepository;
 
 public class AccountServiceImpl implements AccountService {
 
     private final TransactionTemplate transactionTemplate;
 
-    private final CrudRepository<Account> accountRepository;
+    private final AccountRepository accountRepository;
 
     public AccountServiceImpl() {
         this.transactionTemplate = new TransactionTemplate();
@@ -29,28 +30,28 @@ public class AccountServiceImpl implements AccountService {
     }
 
     @Override
-    public Account getById(String id) {
+    public Account getById(AccountCompoundId id) {
         return executeWithinTransaction(connection -> {
             return accountRepository.getById(connection, id);
         });
     }
 
     @Override
-    public Optional<Account> findById(String id) {
+    public Optional<Account> findById(AccountCompoundId id) {
         return executeWithinTransaction(connection -> {
             return accountRepository.findById(connection, id);
         });
     }
 
     @Override
-    public Account update(String id, Account accountSpec) {
+    public Account update(AccountCompoundId id, Account accountSpec) {
         return executeWithinTransaction(connection -> {
             return accountRepository.update(connection, id, accountSpec);
         });
     }
 
     @Override
-    public void deleteById(String id) {
+    public void deleteById(AccountCompoundId id) {
         executeWithinTransaction(connection -> {
             accountRepository.deleteById(connection, id);
 

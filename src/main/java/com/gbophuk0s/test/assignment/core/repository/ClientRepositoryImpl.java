@@ -11,7 +11,7 @@ import java.util.UUID;
 import com.gbophuk0s.test.assignment.core.ObjectNotFoundException;
 import com.gbophuk0s.test.assignment.core.model.Client;
 
-public class ClientRepositoryImpl implements CrudRepository<Client> {
+public class ClientRepositoryImpl implements ClientRepository {
 
     @Override
     public Client create(Connection connection, Client spec) throws SQLException {

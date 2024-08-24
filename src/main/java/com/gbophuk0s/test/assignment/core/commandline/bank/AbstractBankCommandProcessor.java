@@ -7,7 +7,6 @@ import com.gbophuk0s.test.assignment.core.service.BankService;
 public abstract class AbstractBankCommandProcessor extends AbstractCommandProcessor {
 
     protected static final String ID_PARAMETER = "id";
-    protected static final String NAME_PARAMETER = "name";
     protected static final String LEGAL_ENTITY_CHARGE_PARAMETER = "legalEntityCharge";
     protected static final String INDIVIDUAL_CHARGE_PARAMETER = "individualCharge";
     private static final double MIN_CHARGE_VALUE = 0;

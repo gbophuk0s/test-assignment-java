@@ -7,13 +7,13 @@ import com.gbophuk0s.test.assignment.core.db.ConnectionCallback;
 import com.gbophuk0s.test.assignment.core.db.Database;
 import com.gbophuk0s.test.assignment.core.db.TransactionTemplate;
 import com.gbophuk0s.test.assignment.core.model.Bank;
+import com.gbophuk0s.test.assignment.core.repository.BankRepository;
 import com.gbophuk0s.test.assignment.core.repository.BankRepositoryImpl;
-import com.gbophuk0s.test.assignment.core.repository.CrudRepository;
 
 public class BankServiceImpl implements BankService {
 
     private final TransactionTemplate transactionTemplate;
-    private final CrudRepository<Bank> bankRepository;
+    private final BankRepository bankRepository;
 
     public BankServiceImpl() {
         this.transactionTemplate = new TransactionTemplate();

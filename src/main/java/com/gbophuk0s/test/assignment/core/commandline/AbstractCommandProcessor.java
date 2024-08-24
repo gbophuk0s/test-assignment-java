@@ -8,6 +8,8 @@ import org.apache.logging.log4j.Logger;
 
 public abstract class AbstractCommandProcessor implements CommandProcessor {
 
+    protected static final String NAME_PARAMETER = "name";
+
     protected final Logger logger = LogManager.getLogger(getClass());
 
     private static final int MAX_NAME_LENGTH = 25;

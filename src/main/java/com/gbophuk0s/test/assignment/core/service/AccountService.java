@@ -3,17 +3,18 @@ package com.gbophuk0s.test.assignment.core.service;
 import java.util.Optional;
 
 import com.gbophuk0s.test.assignment.core.model.Account;
+import com.gbophuk0s.test.assignment.core.model.AccountCompoundId;
 
 public interface AccountService {
 
     Account create(Account accountSpec);
 
-    Account getById(String id);
+    Account getById(AccountCompoundId id);
 
-    Optional<Account> findById(String id);
+    Optional<Account> findById(AccountCompoundId id);
 
-    Account update(String id, Account accountSpec);
+    Account update(AccountCompoundId id, Account accountSpec);
 
-    void deleteById(String id);
+    void deleteById(AccountCompoundId id);
 
 }

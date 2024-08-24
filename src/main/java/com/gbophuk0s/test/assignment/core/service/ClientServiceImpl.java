@@ -7,14 +7,14 @@ import com.gbophuk0s.test.assignment.core.db.ConnectionCallback;
 import com.gbophuk0s.test.assignment.core.db.Database;
 import com.gbophuk0s.test.assignment.core.db.TransactionTemplate;
 import com.gbophuk0s.test.assignment.core.model.Client;
+import com.gbophuk0s.test.assignment.core.repository.ClientRepository;
 import com.gbophuk0s.test.assignment.core.repository.ClientRepositoryImpl;
-import com.gbophuk0s.test.assignment.core.repository.CrudRepository;
 
 public class ClientServiceImpl implements ClientService {
 
     private final TransactionTemplate transactionTemplate;
 
-    private final CrudRepository<Client> clientRepository;
+    private final ClientRepository clientRepository;
 
     public ClientServiceImpl() {
         this.transactionTemplate = new TransactionTemplate();

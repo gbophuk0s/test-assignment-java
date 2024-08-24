@@ -7,12 +7,11 @@ CREATE TABLE IF NOT EXISTS bank (
 );
 
 CREATE TABLE IF NOT EXISTS account (
-    id        UUID    NOT NULL,
     bank_id   UUID    NOT NULL,
     client_id UUID    NOT NULL,
     name      TEXT    NOT NULL,
     currency  CHAR(3) NOT NULL,
-    CONSTRAINT pk_account PRIMARY KEY (id, bank_id, client_id)
+    CONSTRAINT pk_account PRIMARY KEY (bank_id, client_id, currency)
 );
 
 CREATE TABLE IF NOT EXISTS client (

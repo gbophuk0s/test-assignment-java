@@ -1,6 +1,6 @@
 package com.gbophuk0s.test.assignment.core.model;
 
-public class Account extends AbstractDataObject {
+public class Account {
 
     private String bankId;
 
@@ -42,11 +42,14 @@ public class Account extends AbstractDataObject {
         this.currency = currency;
     }
 
+    public AccountCompoundId getId() {
+        return new AccountCompoundId(bankId, clientId, currency);
+    }
+
     @Override
     public String toString() {
         return "Account{" +
-            "id='" + getId() + '\'' +
-            ", bankId='" + bankId + '\'' +
+            "bankId='" + bankId + '\'' +
             ", clientId='" + clientId + '\'' +
             ", name='" + name + '\'' +
             ", currency=" + currency +

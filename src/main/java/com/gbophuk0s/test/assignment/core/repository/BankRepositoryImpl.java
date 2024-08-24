@@ -11,7 +11,7 @@ import java.util.UUID;
 import com.gbophuk0s.test.assignment.core.ObjectNotFoundException;
 import com.gbophuk0s.test.assignment.core.model.Bank;
 
-public class BankRepositoryImpl implements CrudRepository<Bank> {
+public class BankRepositoryImpl implements BankRepository {
 
     @Override
     public Bank create(Connection connection, Bank spec) throws SQLException {
