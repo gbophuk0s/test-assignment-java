@@ -10,8 +10,6 @@ public abstract class AbstractBankCommandProcessor extends AbstractCommandProces
     protected static final String NAME_PARAMETER = "name";
     protected static final String LEGAL_ENTITY_CHARGE_PARAMETER = "legalEntityCharge";
     protected static final String INDIVIDUAL_CHARGE_PARAMETER = "individualCharge";
-
-    private static final int MAX_NAME_LENGTH = 25;
     private static final double MIN_CHARGE_VALUE = 0;
     private static final double MAX_CHARGE_VALUE = 99;
 
@@ -19,26 +17,6 @@ public abstract class AbstractBankCommandProcessor extends AbstractCommandProces
 
     protected AbstractBankCommandProcessor(BankService bankService) {
         this.bankService = bankService;
-    }
-
-    protected String processName(String value) {
-        return processName(value, true);
-    }
-
-    protected String processName(String value, boolean required) {
-        if (value == null && required) {
-            throw new DataValidationException("Name is required");
-        }
-
-        if (value == null) {
-            return null;
-        }
-
-        if (value.length() > MAX_NAME_LENGTH) {
-            throw new DataValidationException(String.format("Max length of name is %s", MAX_NAME_LENGTH));
-        }
-
-        return value;
     }
 
     protected double processLegalEntityCharge(String value) {

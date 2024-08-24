@@ -11,32 +11,10 @@ public abstract class AbstractClientCommandProcessor extends AbstractCommandProc
     protected static final String NAME_PARAMETER = "name";
     protected static final String TYPE_PARAMETER = "type";
 
-    private static final int MAX_NAME_LENGTH = 25;
-
     protected final ClientService clientService;
 
     protected AbstractClientCommandProcessor(ClientService clientService) {
         this.clientService = clientService;
-    }
-
-    protected String processName(String value) {
-        return processName(value, true);
-    }
-
-    protected String processName(String value, boolean required) {
-        if (value == null && required) {
-            throw new DataValidationException("Name is required");
-        }
-
-        if (value == null) {
-            return null;
-        }
-
-        if (value.length() > MAX_NAME_LENGTH) {
-            throw new DataValidationException(String.format("Max length of name is %s", MAX_NAME_LENGTH));
-        }
-
-        return value;
     }
 
     protected Client.Type processType(String type) {

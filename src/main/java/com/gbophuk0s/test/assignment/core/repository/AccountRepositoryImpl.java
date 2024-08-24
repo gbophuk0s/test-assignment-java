@@ -4,6 +4,7 @@ import java.sql.Connection;
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.SQLException;
+import java.util.Objects;
 import java.util.Optional;
 import java.util.UUID;
 
@@ -69,8 +70,10 @@ public class AccountRepositoryImpl implements CrudRepository<Account> {
             "WHERE id = ?"
         );
 
-        statement.setString(1, spec.getName());
-        statement.setString(2, spec.getCurrency().getCode());
+        Account persisted = getById(connection, id);
+
+        statement.setString(1, Objects.requireNonNullElse(spec.getName(), persisted.getName()));
+        statement.setString(2, Objects.requireNonNullElse(spec.getCurrency(), persisted.getCurrency()).getCode());
         statement.setObject(3, UUID.fromString(id));
 
         statement.execute();
