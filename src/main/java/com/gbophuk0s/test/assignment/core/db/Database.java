@@ -12,20 +12,36 @@ import org.apache.logging.log4j.Logger;
 
 public class Database {
 
-    private static final Logger LOGGER = LogManager.getLogger(Database.class);
+    public static final Database INSTANCE;
+    private static final Logger LOGGER;
+
+    static {
+        LOGGER = LogManager.getLogger(Database.class);
+        INSTANCE = new Database();
+    }
 
     private final DataSource dataSource;
 
-    public Database() {
+    private Database() {
         this.dataSource = new DataSourceImpl(
             DatabaseConfig.DRIVER_CLASS,
             DatabaseConfig.URL,
             DatabaseConfig.USERNAME,
             DatabaseConfig.PASSWORD
         );
+
+        init();
     }
 
-    public void init() {
+    public Connection openConnection() {
+        return JdbcUtils.openConnection(dataSource);
+    }
+
+    public void closeConnection(Connection connection) {
+        JdbcUtils.closeConnection(connection);
+    }
+
+    private void init() {
         createTables();
         createConstraints();
     }
