@@ -1,7 +1,8 @@
 package com.gbophuk0s.test.assignment.core.db;
 
 import java.io.BufferedReader;
-import java.io.FileReader;
+import java.io.InputStream;
+import java.io.InputStreamReader;
 import java.sql.Connection;
 import java.sql.Statement;
 import java.util.ArrayList;
@@ -72,7 +73,11 @@ public class Database {
     private List<String> parseScript(String scriptLocation) {
         List<String> result = new ArrayList<>();
 
-        try (BufferedReader reader = new BufferedReader(new FileReader(getAbsolutePath(scriptLocation)))) {
+        ClassLoader classLoader = Thread.currentThread().getContextClassLoader();
+
+        try (InputStream inputStream = classLoader.getResourceAsStream(scriptLocation);
+             BufferedReader reader = new BufferedReader(new InputStreamReader(inputStream))) {
+
             StringBuilder statement = new StringBuilder();
 
             String line;
@@ -100,14 +105,4 @@ public class Database {
         return result;
     }
 
-    private String getAbsolutePath(String scriptLocation) {
-        ClassLoader classLoader = Thread.currentThread().getContextClassLoader();
-        String result = classLoader.getResource(scriptLocation).getFile();
-
-        if (result == null || result.length() == 0) {
-            throw new IllegalArgumentException(String.format("Script not found: %s", scriptLocation));
-        }
-
-        return result;
-    }
 }
