@@ -27,7 +27,7 @@ public class CommandlineProcessor {
 
         LOGGER.info("Executing command: {}, arguments: {}", command, args);
 
-        CommandProcessor processor = commandProcessorRegistry.resolve(command);
+        CommandProcessor processor = commandProcessorRegistry.get(command);
 
         Map<String, String> arguments = commandlineArgsParser.parse(args);
 

@@ -16,7 +16,7 @@ public class CommandProcessorRegistry {
         registry.put(command, parser);
     }
 
-    public CommandProcessor resolve(String command) {
+    public CommandProcessor get(String command) {
         CommandProcessor parser = registry.get(command);
 
         if (parser == null) {

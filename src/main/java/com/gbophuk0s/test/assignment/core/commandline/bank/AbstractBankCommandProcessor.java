@@ -9,7 +9,7 @@ public abstract class AbstractBankCommandProcessor extends AbstractCommandProces
     protected static final String LEGAL_ENTITY_CHARGE_PARAMETER = "legalEntityCharge";
     protected static final String INDIVIDUAL_CHARGE_PARAMETER = "individualCharge";
     private static final double MIN_CHARGE_VALUE = 0;
-    private static final double MAX_CHARGE_VALUE = 99;
+    private static final double MAX_CHARGE_VALUE = 0.99;
 
     protected final BankService bankService;
 
