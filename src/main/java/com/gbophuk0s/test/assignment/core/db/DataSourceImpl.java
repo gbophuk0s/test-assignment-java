@@ -46,7 +46,7 @@ class DataSourceImpl implements DataSource {
 
     private Connection getConnectionFromDriver(String username, String password) throws SQLException {
         Properties props = new Properties();
-        props.setProperty("username", username);
+        props.setProperty("user", username);
         props.setProperty("password", password);
 
         return driver.connect(url, props);
