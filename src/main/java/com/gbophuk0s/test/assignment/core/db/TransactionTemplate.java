@@ -29,7 +29,9 @@ public class TransactionTemplate {
 
             T result = callback.doInConnection(connection);
 
+            LOGGER.debug("Committing transaction...");
             connection.commit();
+            LOGGER.debug("Transaction committed");
 
             return result;
         }

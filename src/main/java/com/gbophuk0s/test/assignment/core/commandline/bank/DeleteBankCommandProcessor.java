@@ -14,7 +14,7 @@ public class DeleteBankCommandProcessor extends AbstractBankCommandProcessor {
     public void process(Map<String, String> values) {
         String id = processId(values.get(ID_PARAMETER));
 
-        bankService.deleteById(id);
+        bankService.delete(id);
         logger.info("Deleted: {}", id);
     }
 

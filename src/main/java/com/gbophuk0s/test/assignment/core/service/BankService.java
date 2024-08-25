@@ -1,21 +1,10 @@
 package com.gbophuk0s.test.assignment.core.service;
 
 import java.math.BigDecimal;
-import java.util.Optional;
 
 import com.gbophuk0s.test.assignment.core.model.Bank;
 
-public interface BankService {
-
-    Bank create(Bank bankSpec);
-
-    Bank getById(String id);
-
-    Optional<Bank> findById(String id);
-
-    Bank update(String id, Bank bankSpec);
-
-    void deleteById(String id);
+public interface BankService extends CrudService<Bank> {
 
     void transfer(String fromAccountId, String toAccountId, BigDecimal amount);
 

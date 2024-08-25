@@ -14,7 +14,7 @@ public class DeleteClientCommandProcessor extends AbstractClientCommandProcessor
     public void process(Map<String, String> values) {
         String id = processId(values.get(ID_PARAMETER));
 
-        clientService.deleteById(id);
+        clientService.delete(id);
         logger.info("Deleted: {}", id);
     }
 

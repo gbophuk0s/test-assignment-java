@@ -14,7 +14,7 @@ public class DeleteAccountCommandProcessor extends AbstractAccountCommandProcess
     public void process(Map<String, String> values) {
         String id = processId(values.get(ID_PARAMETER));
 
-        accountService.deleteById(id);
+        accountService.delete(id);
         logger.info("Deleted: {}", id);
     }
 
