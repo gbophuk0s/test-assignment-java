@@ -4,6 +4,8 @@ import java.sql.Connection;
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.SQLException;
+import java.util.ArrayList;
+import java.util.List;
 import java.util.Objects;
 import java.util.Optional;
 import java.util.UUID;
@@ -98,6 +100,34 @@ public class AccountRepositoryImpl implements AccountRepository {
         statement.setObject(1, UUID.fromString(id));
 
         statement.execute();
+    }
+
+    @Override
+    public List<Account> findAllByClientId(Connection connection, String id) throws SQLException {
+        PreparedStatement statement = connection.prepareStatement("" +
+            "SELECT * FROM account " +
+            "WHERE client_id = ?"
+        );
+
+        statement.setObject(1, UUID.fromString(id));
+
+        ResultSet resultSet = statement.executeQuery();
+
+        List<Account> result = new ArrayList<>();
+        while (resultSet.next()) {
+            Account account = new Account();
+
+            account.setId(resultSet.getString("id"));
+            account.setBankId(resultSet.getObject("bank_id").toString());
+            account.setClientId(resultSet.getObject("client_id").toString());
+            account.setCurrency(Currency.create(resultSet.getString("currency")));
+            account.setName(resultSet.getString("name"));
+            account.setBalance(resultSet.getBigDecimal("balance"));
+
+            result.add(account);
+        }
+
+        return result;
     }
 
 }

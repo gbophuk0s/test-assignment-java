@@ -1,6 +1,7 @@
 package com.gbophuk0s.test.assignment.core.service;
 
 import java.sql.Connection;
+import java.util.List;
 import java.util.Optional;
 
 import com.gbophuk0s.test.assignment.core.db.ConnectionCallback;
@@ -55,6 +56,13 @@ public class AccountServiceImpl implements AccountService {
             accountRepository.deleteById(connection, id);
 
             return null;
+        });
+    }
+
+    @Override
+    public List<Account> findAllByClientId(String clientId) {
+        return executeWithinTransaction(connection -> {
+            return accountRepository.findAllByClientId(connection, clientId);
         });
     }
 
