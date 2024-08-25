@@ -15,20 +15,21 @@ public class ClientRepositoryImpl implements ClientRepository {
 
     @Override
     public Client create(Connection connection, Client spec) throws SQLException {
-        PreparedStatement statement = connection.prepareStatement("" +
+        String sql = "" +
             "INSERT INTO client (id, name, type) " +
-            "VALUES (?, ?, ?)"
-        );
+            "VALUES (?, ?, ?)";
 
-        UUID newId = UUID.randomUUID();
+        try (PreparedStatement statement = connection.prepareStatement(sql)) {
+            UUID newId = UUID.randomUUID();
 
-        statement.setObject(1, newId);
-        statement.setString(2, spec.getName());
-        statement.setString(3, spec.getType().name());
+            statement.setObject(1, newId);
+            statement.setString(2, spec.getName());
+            statement.setString(3, spec.getType().name());
 
-        statement.execute();
+            statement.execute();
 
-        return getById(connection, newId.toString());
+            return getById(connection, newId.toString());
+        }
     }
 
     @Override
@@ -39,50 +40,55 @@ public class ClientRepositoryImpl implements ClientRepository {
 
     @Override
     public Optional<Client> findById(Connection connection, String id) throws SQLException {
-        PreparedStatement statement = connection.prepareStatement("SELECT * FROM client WHERE id = ?");
+        String sql = "SELECT * FROM client WHERE id = ?";
 
-        statement.setObject(1, UUID.fromString(id));
-        ResultSet resultSet = statement.executeQuery();
+        try (PreparedStatement statement = connection.prepareStatement(sql)) {
+            statement.setObject(1, UUID.fromString(id));
+            ResultSet resultSet = statement.executeQuery();
 
-        if (!resultSet.next()) {
-            return Optional.empty();
+            if (!resultSet.next()) {
+                return Optional.empty();
+            }
+
+            Client result = new Client();
+
+            result.setId(resultSet.getString("id"));
+            result.setName(resultSet.getString("name"));
+            result.setType(Client.Type.valueOf(resultSet.getString("type")));
+
+            return Optional.of(result);
         }
-
-        Client result = new Client();
-
-        result.setId(resultSet.getString("id"));
-        result.setName(resultSet.getString("name"));
-        result.setType(Client.Type.valueOf(resultSet.getString("type")));
-
-        return Optional.of(result);
     }
 
     @Override
     public Client update(Connection connection, String id, Client spec) throws SQLException {
-        PreparedStatement statement = connection.prepareStatement("" +
+        String sql = "" +
             "UPDATE client " +
             "SET name = ?, type = ?" +
-            "WHERE id = ?"
-        );
+            "WHERE id = ?";
 
-        Client persisted = getById(connection, id);
+        try (PreparedStatement statement = connection.prepareStatement(sql)) {
+            Client persisted = getById(connection, id);
 
-        statement.setString(1, Objects.requireNonNullElse(spec.getName(), persisted.getName()));
-        statement.setString(2, Objects.requireNonNullElse(spec.getType(), persisted.getType()).name());
-        statement.setObject(3, UUID.fromString(id));
+            statement.setString(1, Objects.requireNonNullElse(spec.getName(), persisted.getName()));
+            statement.setString(2, Objects.requireNonNullElse(spec.getType(), persisted.getType()).name());
+            statement.setObject(3, UUID.fromString(id));
 
-        statement.execute();
+            statement.execute();
 
-        return getById(connection, id);
+            return getById(connection, id);
+        }
     }
 
     @Override
     public void deleteById(Connection connection, String id) throws SQLException {
-        PreparedStatement statement = connection.prepareStatement("DELETE FROM client " + "WHERE id = ?");
+        String sql = "DELETE FROM client " + "WHERE id = ?";
 
-        statement.setObject(1, UUID.fromString(id));
+        try (PreparedStatement statement = connection.prepareStatement(sql)) {
+            statement.setObject(1, UUID.fromString(id));
 
-        statement.execute();
+            statement.execute();
+        }
     }
 
 }

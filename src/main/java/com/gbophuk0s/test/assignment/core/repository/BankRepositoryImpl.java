@@ -15,21 +15,22 @@ public class BankRepositoryImpl implements BankRepository {
 
     @Override
     public Bank create(Connection connection, Bank spec) throws SQLException {
-        PreparedStatement statement = connection.prepareStatement("" +
+        String sql = "" +
             "INSERT INTO bank (id, name, legal_entity_charge, individual_charge) " +
-            "VALUES (?, ?, ?, ?)"
-        );
+            "VALUES (?, ?, ?, ?)";
 
-        UUID newId = UUID.randomUUID();
+        try (PreparedStatement statement = connection.prepareStatement(sql)) {
+            UUID newId = UUID.randomUUID();
 
-        statement.setObject(1, newId);
-        statement.setString(2, spec.getName());
-        statement.setDouble(3, spec.getLegalEntityCharge());
-        statement.setDouble(4, spec.getIndividualCharge());
+            statement.setObject(1, newId);
+            statement.setString(2, spec.getName());
+            statement.setDouble(3, spec.getLegalEntityCharge());
+            statement.setDouble(4, spec.getIndividualCharge());
 
-        statement.execute();
+            statement.execute();
 
-        return getById(connection, newId.toString());
+            return getById(connection, newId.toString());
+        }
     }
 
     @Override
@@ -40,52 +41,57 @@ public class BankRepositoryImpl implements BankRepository {
 
     @Override
     public Optional<Bank> findById(Connection connection, String id) throws SQLException {
-        PreparedStatement statement = connection.prepareStatement("SELECT * FROM bank WHERE id = ?");
+        String sql = "SELECT * FROM bank WHERE id = ?";
 
-        statement.setObject(1, UUID.fromString(id));
-        ResultSet resultSet = statement.executeQuery();
+        try (PreparedStatement statement = connection.prepareStatement(sql)) {
+            statement.setObject(1, UUID.fromString(id));
+            ResultSet resultSet = statement.executeQuery();
 
-        if (!resultSet.next()) {
-            return Optional.empty();
+            if (!resultSet.next()) {
+                return Optional.empty();
+            }
+
+            Bank result = new Bank();
+
+            result.setId(resultSet.getString("id"));
+            result.setName(resultSet.getString("name"));
+            result.setLegalEntityCharge(resultSet.getDouble("legal_entity_charge"));
+            result.setIndividualCharge(resultSet.getDouble("individual_charge"));
+
+            return Optional.of(result);
         }
-
-        Bank result = new Bank();
-
-        result.setId(resultSet.getString("id"));
-        result.setName(resultSet.getString("name"));
-        result.setLegalEntityCharge(resultSet.getDouble("legal_entity_charge"));
-        result.setIndividualCharge(resultSet.getDouble("individual_charge"));
-
-        return Optional.of(result);
     }
 
     @Override
     public Bank update(Connection connection, String id, Bank spec) throws SQLException {
-        PreparedStatement statement = connection.prepareStatement("" +
+        String sql = "" +
             "UPDATE bank " +
             "SET name = ?, legal_entity_charge = ?, individual_charge = ?" +
-            "WHERE id = ?"
-        );
+            "WHERE id = ?";
 
-        Bank persisted = getById(connection, id);
+        try (PreparedStatement statement = connection.prepareStatement(sql)) {
+            Bank persisted = getById(connection, id);
 
-        statement.setString(1, Objects.requireNonNullElse(spec.getName(), persisted.getName()));
-        statement.setDouble(2, Objects.requireNonNullElse(spec.getLegalEntityCharge(), persisted.getLegalEntityCharge()));
-        statement.setDouble(3, Objects.requireNonNullElse(spec.getIndividualCharge(), persisted.getIndividualCharge()));
-        statement.setObject(4, UUID.fromString(id));
+            statement.setString(1, Objects.requireNonNullElse(spec.getName(), persisted.getName()));
+            statement.setDouble(2, Objects.requireNonNullElse(spec.getLegalEntityCharge(), persisted.getLegalEntityCharge()));
+            statement.setDouble(3, Objects.requireNonNullElse(spec.getIndividualCharge(), persisted.getIndividualCharge()));
+            statement.setObject(4, UUID.fromString(id));
 
-        statement.execute();
+            statement.execute();
 
-        return getById(connection, id);
+            return getById(connection, id);
+        }
     }
 
     @Override
     public void deleteById(Connection connection, String id) throws SQLException {
-        PreparedStatement statement = connection.prepareStatement("DELETE FROM bank " + "WHERE id = ?");
+        String sql = "DELETE FROM bank " + "WHERE id = ?";
 
-        statement.setObject(1, UUID.fromString(id));
+        try (PreparedStatement statement = connection.prepareStatement(sql)) {
+            statement.setObject(1, UUID.fromString(id));
 
-        statement.execute();
+            statement.execute();
+        }
     }
 
 }
