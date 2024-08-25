@@ -12,6 +12,14 @@ public class CreateClientCommandProcessor extends AbstractClientCommandProcessor
     }
 
     @Override
+    public String getParamsTemplate() {
+        return String.format("--%s=name --%s=[LEGAL_ENTITY|INDIVIDUAL]",
+            NAME_PARAMETER,
+            TYPE_PARAMETER
+        );
+    }
+
+    @Override
     public void process(Map<String, String> values) {
         Client client = processValues(values);
 

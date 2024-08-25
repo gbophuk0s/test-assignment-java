@@ -11,6 +11,13 @@ public class DeleteAccountCommandProcessor extends AbstractAccountCommandProcess
     }
 
     @Override
+    public String getParamsTemplate() {
+        return String.format("--%s=uuid",
+            ID_PARAMETER
+        );
+    }
+
+    @Override
     public void process(Map<String, String> values) {
         String id = processId(values.get(ID_PARAMETER));
 

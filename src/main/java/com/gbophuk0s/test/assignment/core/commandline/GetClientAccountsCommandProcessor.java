@@ -13,7 +13,16 @@ public class GetClientAccountsCommandProcessor extends AbstractCommandProcessor 
     private final AccountService accountService;
 
     public GetClientAccountsCommandProcessor(AccountService accountService) {
+        super();
+
         this.accountService = accountService;
+    }
+
+    @Override
+    public String getParamsTemplate() {
+        return String.format("--%s=uuid",
+            CLIENT_ID_PARAMETER
+        );
     }
 
     @Override

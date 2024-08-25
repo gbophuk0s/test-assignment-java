@@ -12,6 +12,15 @@ public class UpdateClientCommandProcessor extends AbstractClientCommandProcessor
     }
 
     @Override
+    public String getParamsTemplate() {
+        return String.format("--%s=uuid --%s=name --%s=[LEGAL_ENTITY|INDIVIDUAL]",
+            ID_PARAMETER,
+            NAME_PARAMETER,
+            TYPE_PARAMETER
+        );
+    }
+
+    @Override
     public void process(Map<String, String> values) {
         String id = processId(values.get(ID_PARAMETER));
         Client spec = processValues(values);

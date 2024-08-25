@@ -68,5 +68,6 @@ public class CommandlineConfig {
         registry.register("getClientAccounts", new GetClientAccountsCommandProcessor(accountService));
 
         registry.register("terminate", new TerminateCommandProcessor());
+        registry.register("help", new HelpCommandProcessor(registry::getRegistered));
     }
 }

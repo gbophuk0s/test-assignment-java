@@ -14,6 +14,8 @@ public abstract class AbstractBankCommandProcessor extends AbstractCommandProces
     protected final BankService bankService;
 
     protected AbstractBankCommandProcessor(BankService bankService) {
+        super();
+
         this.bankService = bankService;
     }
 

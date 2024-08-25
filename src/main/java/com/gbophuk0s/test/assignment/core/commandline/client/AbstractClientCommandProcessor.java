@@ -12,6 +12,8 @@ public abstract class AbstractClientCommandProcessor extends AbstractCommandProc
     protected final ClientService clientService;
 
     protected AbstractClientCommandProcessor(ClientService clientService) {
+        super();
+
         this.clientService = clientService;
     }
 

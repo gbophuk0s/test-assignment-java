@@ -13,7 +13,18 @@ public class TransferMoneyCommandProcessor extends AbstractCommandProcessor {
 
     private final BankService bankService;
 
+    @Override
+    public String getParamsTemplate() {
+        return String.format("--%s=uuid --%s=uuid --%s=amount",
+            FROM_ACCOUNT_ID_PARAMETER,
+            TO_ACCOUNT_ID_PARAMETER,
+            AMOUNT_PARAMETER
+        );
+    }
+
     public TransferMoneyCommandProcessor(BankService bankService) {
+        super();
+
         this.bankService = bankService;
     }
 

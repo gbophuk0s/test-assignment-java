@@ -12,6 +12,17 @@ public class CreateAccountCommandProcessor extends AbstractAccountCommandProcess
     }
 
     @Override
+    public String getParamsTemplate() {
+        return String.format("--%s=uuid --%s=uuid --%s=currencyCode --%s=name --%s=balance",
+            BANK_ID_PARAMETER,
+            CLIENT_ID_PARAMETER,
+            CURRENCY_PARAMETER,
+            NAME_PARAMETER,
+            BALANCE_PARAMETER
+        );
+    }
+
+    @Override
     public void process(Map<String, String> values) {
         Account account = processValues(values);
 

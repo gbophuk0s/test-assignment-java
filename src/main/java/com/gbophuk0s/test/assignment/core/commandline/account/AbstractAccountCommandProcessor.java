@@ -15,6 +15,8 @@ public abstract class AbstractAccountCommandProcessor extends AbstractCommandPro
     protected final AccountService accountService;
 
     protected AbstractAccountCommandProcessor(AccountService accountService) {
+        super();
+
         this.accountService = accountService;
     }
 

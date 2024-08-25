@@ -12,6 +12,15 @@ public class UpdateBankCommandProcessor extends AbstractBankCommandProcessor {
     }
 
     @Override
+    public String getParamsTemplate() {
+        return String.format("--%s=name --%s=doubleValue --%s=doubleValue",
+            NAME_PARAMETER,
+            LEGAL_ENTITY_CHARGE_PARAMETER,
+            INDIVIDUAL_CHARGE_PARAMETER
+        );
+    }
+
+    @Override
     public void process(Map<String, String> values) {
         String id = processId(values.get(ID_PARAMETER));
         Bank spec = processValues(values);

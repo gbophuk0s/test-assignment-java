@@ -2,7 +2,7 @@ package com.gbophuk0s.test.assignment.core.commandline;
 
 import java.util.Map;
 
-public class TerminateCommandProcessor extends AbstractCommandProcessor {
+public class TerminateCommandProcessor implements CommandProcessor {
 
     @Override
     public void process(Map<String, String> values) {
