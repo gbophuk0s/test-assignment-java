@@ -1,14 +1,18 @@
 package com.gbophuk0s.test.assignment.core.model;
 
-public class Account {
+import java.math.BigDecimal;
+
+public class Account extends AbstractDataObject {
 
     private String bankId;
 
     private String clientId;
 
+    private Currency currency;
+
     private String name;
 
-    private Currency currency;
+    private BigDecimal balance;
 
     public String getBankId() {
         return bankId;
@@ -26,14 +30,6 @@ public class Account {
         this.clientId = clientId;
     }
 
-    public String getName() {
-        return name;
-    }
-
-    public void setName(String name) {
-        this.name = name;
-    }
-
     public Currency getCurrency() {
         return currency;
     }
@@ -42,17 +38,39 @@ public class Account {
         this.currency = currency;
     }
 
-    public AccountCompoundId getId() {
-        return new AccountCompoundId(bankId, clientId, currency);
+    public String getName() {
+        return name;
+    }
+
+    public void setName(String name) {
+        this.name = name;
+    }
+
+    public BigDecimal getBalance() {
+        return balance;
+    }
+
+    public void setBalance(BigDecimal balance) {
+        this.balance = balance;
+    }
+
+    public void withdraw(BigDecimal amount) {
+        balance = balance.subtract(amount);
+    }
+
+    public void deposit(BigDecimal amount) {
+        balance = balance.add(amount);
     }
 
     @Override
     public String toString() {
         return "Account{" +
-            "bankId='" + bankId + '\'' +
+            "id='" + getId() + '\'' +
+            ", bankId='" + bankId + '\'' +
             ", clientId='" + clientId + '\'' +
+            ", currency='" + currency + '\'' +
             ", name='" + name + '\'' +
-            ", currency=" + currency +
+            ", balance=" + balance +
             '}';
     }
 }

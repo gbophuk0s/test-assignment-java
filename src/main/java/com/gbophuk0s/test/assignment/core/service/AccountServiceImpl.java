@@ -7,7 +7,6 @@ import com.gbophuk0s.test.assignment.core.db.ConnectionCallback;
 import com.gbophuk0s.test.assignment.core.db.Database;
 import com.gbophuk0s.test.assignment.core.db.TransactionTemplate;
 import com.gbophuk0s.test.assignment.core.model.Account;
-import com.gbophuk0s.test.assignment.core.model.AccountCompoundId;
 import com.gbophuk0s.test.assignment.core.repository.AccountRepository;
 import com.gbophuk0s.test.assignment.core.repository.AccountRepositoryImpl;
 
@@ -30,28 +29,28 @@ public class AccountServiceImpl implements AccountService {
     }
 
     @Override
-    public Account getById(AccountCompoundId id) {
+    public Account getById(String id) {
         return executeWithinTransaction(connection -> {
             return accountRepository.getById(connection, id);
         });
     }
 
     @Override
-    public Optional<Account> findById(AccountCompoundId id) {
+    public Optional<Account> findById(String id) {
         return executeWithinTransaction(connection -> {
             return accountRepository.findById(connection, id);
         });
     }
 
     @Override
-    public Account update(AccountCompoundId id, Account accountSpec) {
+    public Account update(String id, Account accountSpec) {
         return executeWithinTransaction(connection -> {
             return accountRepository.update(connection, id, accountSpec);
         });
     }
 
     @Override
-    public void deleteById(AccountCompoundId id) {
+    public void deleteById(String id) {
         executeWithinTransaction(connection -> {
             accountRepository.deleteById(connection, id);
 

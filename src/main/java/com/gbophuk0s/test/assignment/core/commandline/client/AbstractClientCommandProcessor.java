@@ -7,7 +7,6 @@ import com.gbophuk0s.test.assignment.core.service.ClientService;
 
 public abstract class AbstractClientCommandProcessor extends AbstractCommandProcessor {
 
-    protected static final String ID_PARAMETER = "id";
     protected static final String TYPE_PARAMETER = "type";
 
     protected final ClientService clientService;

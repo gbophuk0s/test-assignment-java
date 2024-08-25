@@ -10,7 +10,6 @@ import java.util.UUID;
 
 import com.gbophuk0s.test.assignment.core.ObjectNotFoundException;
 import com.gbophuk0s.test.assignment.core.model.Account;
-import com.gbophuk0s.test.assignment.core.model.AccountCompoundId;
 import com.gbophuk0s.test.assignment.core.model.Currency;
 
 public class AccountRepositoryImpl implements AccountRepository {
@@ -18,36 +17,39 @@ public class AccountRepositoryImpl implements AccountRepository {
     @Override
     public Account create(Connection connection, Account spec) throws SQLException {
         PreparedStatement statement = connection.prepareStatement("" +
-            "INSERT INTO account (bank_id, client_id, name, currency) " +
-            "VALUES (?, ?, ?, ?)"
+            "INSERT INTO account (id, bank_id, client_id, name, currency, balance) " +
+            "VALUES (?, ?, ?, ?, ?, ?)"
         );
 
-        statement.setObject(1, UUID.fromString(spec.getBankId()));
-        statement.setObject(2, UUID.fromString(spec.getClientId()));
-        statement.setString(3, spec.getName());
-        statement.setString(4, spec.getCurrency().getCode());
+        UUID newId = UUID.randomUUID();
+
+        statement.setObject(1, newId);
+        statement.setObject(2, UUID.fromString(spec.getBankId()));
+        statement.setObject(3, UUID.fromString(spec.getClientId()));
+        statement.setString(4, spec.getName());
+        statement.setString(5, spec.getCurrency().getCode());
+        statement.setBigDecimal(6, spec.getBalance());
 
         statement.execute();
 
-        return getById(connection, spec.getId());
+        return getById(connection, newId.toString());
     }
 
     @Override
-    public Account getById(Connection connection, AccountCompoundId id) throws SQLException {
+    public Account getById(Connection connection, String id) throws SQLException {
         return findById(connection, id)
             .orElseThrow(() -> new ObjectNotFoundException(String.format("Requested account not found: %s", id)));
     }
 
     @Override
-    public Optional<Account> findById(Connection connection, AccountCompoundId id) throws SQLException {
+    public Optional<Account> findById(Connection connection, String id) throws SQLException {
         PreparedStatement statement = connection.prepareStatement("" +
             "SELECT * FROM account " +
-            "WHERE bank_id = ? AND client_id = ? AND currency = ?"
+            "WHERE id = ?"
         );
 
-        statement.setObject(1, UUID.fromString(id.getBankId()));
-        statement.setObject(2, UUID.fromString(id.getClientId()));
-        statement.setObject(3, id.getCurrency().getCode());
+        statement.setObject(1, UUID.fromString(id));
+
         ResultSet resultSet = statement.executeQuery();
 
         if (!resultSet.next()) {
@@ -56,29 +58,30 @@ public class AccountRepositoryImpl implements AccountRepository {
 
         Account result = new Account();
 
+        result.setId(resultSet.getString("id"));
         result.setBankId(resultSet.getObject("bank_id").toString());
         result.setClientId(resultSet.getObject("client_id").toString());
-        result.setName(resultSet.getString("name"));
         result.setCurrency(Currency.create(resultSet.getString("currency")));
+        result.setName(resultSet.getString("name"));
+        result.setBalance(resultSet.getBigDecimal("balance"));
 
         return Optional.of(result);
     }
 
     @Override
-    public Account update(Connection connection, AccountCompoundId id, Account spec) throws SQLException {
+    public Account update(Connection connection, String id, Account spec) throws SQLException {
         PreparedStatement statement = connection.prepareStatement("" +
             "UPDATE account " +
-            "SET name = ?, currency = ?" +
-            "WHERE bank_id = ? AND client_id = ? AND currency = ?"
+            "SET name = ?, currency = ?, balance = ?" +
+            "WHERE id = ?"
         );
 
         Account persisted = getById(connection, id);
 
         statement.setString(1, Objects.requireNonNullElse(spec.getName(), persisted.getName()));
         statement.setString(2, Objects.requireNonNullElse(spec.getCurrency(), persisted.getCurrency()).getCode());
-        statement.setObject(3, UUID.fromString(id.getBankId()));
-        statement.setObject(4, UUID.fromString(id.getClientId()));
-        statement.setObject(5, id.getCurrency().getCode());
+        statement.setBigDecimal(3, Objects.requireNonNullElse(spec.getBalance(), persisted.getBalance()));
+        statement.setObject(4, UUID.fromString(id));
 
         statement.execute();
 
@@ -86,15 +89,13 @@ public class AccountRepositoryImpl implements AccountRepository {
     }
 
     @Override
-    public void deleteById(Connection connection, AccountCompoundId id) throws SQLException {
+    public void deleteById(Connection connection, String id) throws SQLException {
         PreparedStatement statement = connection.prepareStatement("" +
             "DELETE FROM account " +
-            "WHERE bank_id = ? AND client_id = ? AND currency = ?"
+            "WHERE id = ?"
         );
 
-        statement.setObject(1, UUID.fromString(id.getBankId()));
-        statement.setObject(2, UUID.fromString(id.getClientId()));
-        statement.setObject(3, id.getCurrency().getCode());
+        statement.setObject(1, UUID.fromString(id));
 
         statement.execute();
     }

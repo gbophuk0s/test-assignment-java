@@ -1,5 +1,6 @@
 package com.gbophuk0s.test.assignment.core.service;
 
+import java.math.BigDecimal;
 import java.util.Optional;
 
 import com.gbophuk0s.test.assignment.core.model.Bank;
@@ -15,5 +16,7 @@ public interface BankService {
     Bank update(String id, Bank bankSpec);
 
     void deleteById(String id);
+
+    void transfer(String fromAccountId, String toAccountId, BigDecimal amount);
 
 }

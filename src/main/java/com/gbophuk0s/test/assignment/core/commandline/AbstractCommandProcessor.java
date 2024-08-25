@@ -1,5 +1,6 @@
 package com.gbophuk0s.test.assignment.core.commandline;
 
+import java.math.BigDecimal;
 import java.util.Map;
 import java.util.UUID;
 
@@ -8,6 +9,7 @@ import org.apache.logging.log4j.Logger;
 
 public abstract class AbstractCommandProcessor implements CommandProcessor {
 
+    protected static final String ID_PARAMETER = "id";
     protected static final String NAME_PARAMETER = "name";
 
     protected final Logger logger = LogManager.getLogger(getClass());
@@ -46,6 +48,22 @@ public abstract class AbstractCommandProcessor implements CommandProcessor {
         }
 
         return value;
+    }
+
+    protected BigDecimal processBigDecimal(String value) {
+        return processBigDecimal(value, true);
+    }
+
+    protected BigDecimal processBigDecimal(String value, boolean required) {
+        if (value == null && required) {
+            throw new DataValidationException("BigDecimal is required");
+        }
+
+        if (value == null) {
+            return null;
+        }
+
+        return new BigDecimal(value);
     }
 
 }

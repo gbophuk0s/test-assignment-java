@@ -3,7 +3,6 @@ package com.gbophuk0s.test.assignment.core.commandline.account;
 import java.util.Map;
 
 import com.gbophuk0s.test.assignment.core.model.Account;
-import com.gbophuk0s.test.assignment.core.model.AccountCompoundId;
 import com.gbophuk0s.test.assignment.core.service.AccountService;
 
 public class UpdateAccountCommandProcessor extends AbstractAccountCommandProcessor {
@@ -14,7 +13,8 @@ public class UpdateAccountCommandProcessor extends AbstractAccountCommandProcess
 
     @Override
     public void process(Map<String, String> values) {
-        AccountCompoundId id = processCompoundId(values);
+        String id = processId(values.get(ID_PARAMETER));
+
         Account spec = processValues(values);
 
         Account account = accountService.update(id, spec);
@@ -24,7 +24,9 @@ public class UpdateAccountCommandProcessor extends AbstractAccountCommandProcess
     private Account processValues(Map<String, String> values) {
         Account result = new Account();
 
+        result.setCurrency(processCurrency(values.get(CURRENCY_PARAMETER), false));
         result.setName(processName(values.get(NAME_PARAMETER), false));
+        result.setBalance(processBigDecimal(values.get(BALANCE_PARAMETER), false));
 
         return result;
     }

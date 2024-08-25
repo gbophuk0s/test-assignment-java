@@ -63,5 +63,7 @@ public class CommandlineConfig {
         registry.register("getAccount", new GetAccountCommandProcessor(accountService));
         registry.register("updateAccount", new UpdateAccountCommandProcessor(accountService));
         registry.register("deleteAccount", new DeleteAccountCommandProcessor(accountService));
+
+        registry.register("transferMoney", new TransferMoneyCommandProcessor(bankService));
     }
 }
