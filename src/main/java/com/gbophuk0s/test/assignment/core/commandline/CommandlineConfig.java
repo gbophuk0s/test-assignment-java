@@ -2,14 +2,17 @@ package com.gbophuk0s.test.assignment.core.commandline;
 
 import com.gbophuk0s.test.assignment.core.commandline.account.CreateAccountCommandProcessor;
 import com.gbophuk0s.test.assignment.core.commandline.account.DeleteAccountCommandProcessor;
+import com.gbophuk0s.test.assignment.core.commandline.account.FindAllAccountsCommandProcessor;
 import com.gbophuk0s.test.assignment.core.commandline.account.GetAccountCommandProcessor;
 import com.gbophuk0s.test.assignment.core.commandline.account.UpdateAccountCommandProcessor;
 import com.gbophuk0s.test.assignment.core.commandline.bank.CreateBankCommandProcessor;
 import com.gbophuk0s.test.assignment.core.commandline.bank.DeleteBankCommandProcessor;
+import com.gbophuk0s.test.assignment.core.commandline.bank.FindAllBanksCommandProcessor;
 import com.gbophuk0s.test.assignment.core.commandline.bank.GetBankCommandProcessor;
 import com.gbophuk0s.test.assignment.core.commandline.bank.UpdateBankCommandProcessor;
 import com.gbophuk0s.test.assignment.core.commandline.client.CreateClientCommandProcessor;
 import com.gbophuk0s.test.assignment.core.commandline.client.DeleteClientCommandProcessor;
+import com.gbophuk0s.test.assignment.core.commandline.client.FindAllClientsCommandProcessor;
 import com.gbophuk0s.test.assignment.core.commandline.client.GetClientCommandProcessor;
 import com.gbophuk0s.test.assignment.core.commandline.client.UpdateClientCommandProcessor;
 import com.gbophuk0s.test.assignment.core.service.AccountService;
@@ -49,16 +52,19 @@ public class CommandlineConfig {
     }
 
     private void registerProcessors(CommandProcessorRegistry registry) {
+        registry.register("findAllBanks", new FindAllBanksCommandProcessor(bankService));
         registry.register("createBank", new CreateBankCommandProcessor(bankService));
         registry.register("getBank", new GetBankCommandProcessor(bankService));
         registry.register("updateBank", new UpdateBankCommandProcessor(bankService));
         registry.register("deleteBank", new DeleteBankCommandProcessor(bankService));
 
+        registry.register("findAllClients", new FindAllClientsCommandProcessor(clientService));
         registry.register("createClient", new CreateClientCommandProcessor(clientService));
         registry.register("getClient", new GetClientCommandProcessor(clientService));
         registry.register("updateClient", new UpdateClientCommandProcessor(clientService));
         registry.register("deleteClient", new DeleteClientCommandProcessor(clientService));
 
+        registry.register("findAllAccounts", new FindAllAccountsCommandProcessor(accountService));
         registry.register("createAccount", new CreateAccountCommandProcessor(accountService));
         registry.register("getAccount", new GetAccountCommandProcessor(accountService));
         registry.register("updateAccount", new UpdateAccountCommandProcessor(accountService));

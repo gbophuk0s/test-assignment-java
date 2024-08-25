@@ -1,5 +1,7 @@
 package com.gbophuk0s.test.assignment.core.service;
 
+import java.util.List;
+
 import com.gbophuk0s.test.assignment.core.model.Client;
 import com.gbophuk0s.test.assignment.core.repository.ClientRepository;
 import com.gbophuk0s.test.assignment.core.repository.ClientRepositoryImpl;
@@ -12,6 +14,13 @@ public class ClientServiceImpl extends AbstractService implements ClientService 
         super();
 
         this.clientRepository = new ClientRepositoryImpl();
+    }
+
+    @Override
+    public List<Client> findAll() {
+        return newTransaction(connection -> {
+            return clientRepository.findAll(connection);
+        });
     }
 
     @Override

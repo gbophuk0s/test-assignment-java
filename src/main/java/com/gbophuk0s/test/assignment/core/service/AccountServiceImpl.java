@@ -17,6 +17,13 @@ public class AccountServiceImpl extends AbstractService implements AccountServic
     }
 
     @Override
+    public List<Account> findAll() {
+        return newTransaction(connection -> {
+            return accountRepository.findAll(connection);
+        });
+    }
+
+    @Override
     public Account create(Account accountSpec) {
         return newTransaction(connection -> {
             return accountRepository.create(connection, accountSpec);

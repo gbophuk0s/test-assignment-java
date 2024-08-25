@@ -4,6 +4,8 @@ import java.sql.Connection;
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.SQLException;
+import java.util.ArrayList;
+import java.util.List;
 import java.util.Objects;
 import java.util.Optional;
 import java.util.UUID;
@@ -12,6 +14,23 @@ import com.gbophuk0s.test.assignment.core.ObjectNotFoundException;
 import com.gbophuk0s.test.assignment.core.model.Bank;
 
 public class BankRepositoryImpl implements BankRepository {
+
+    @Override
+    public List<Bank> findAll(Connection connection) throws SQLException {
+        String sql = "" +
+            "SELECT * FROM bank";
+
+        try (PreparedStatement statement = connection.prepareStatement(sql)) {
+            ResultSet resultSet = statement.executeQuery();
+
+            List<Bank> result = new ArrayList<>();
+            while (resultSet.next()) {
+                result.add(convert(resultSet));
+            }
+
+            return result;
+        }
+    }
 
     @Override
     public Bank create(Connection connection, Bank spec) throws SQLException {
@@ -51,14 +70,7 @@ public class BankRepositoryImpl implements BankRepository {
                 return Optional.empty();
             }
 
-            Bank result = new Bank();
-
-            result.setId(resultSet.getString("id"));
-            result.setName(resultSet.getString("name"));
-            result.setLegalEntityCharge(resultSet.getDouble("legal_entity_charge"));
-            result.setIndividualCharge(resultSet.getDouble("individual_charge"));
-
-            return Optional.of(result);
+            return Optional.of(convert(resultSet));
         }
     }
 
@@ -92,6 +104,17 @@ public class BankRepositoryImpl implements BankRepository {
 
             statement.execute();
         }
+    }
+
+    private Bank convert(ResultSet resultSet) throws SQLException {
+        Bank bank = new Bank();
+
+        bank.setId(resultSet.getString("id"));
+        bank.setName(resultSet.getString("name"));
+        bank.setLegalEntityCharge(resultSet.getDouble("legal_entity_charge"));
+        bank.setIndividualCharge(resultSet.getDouble("individual_charge"));
+
+        return bank;
     }
 
 }

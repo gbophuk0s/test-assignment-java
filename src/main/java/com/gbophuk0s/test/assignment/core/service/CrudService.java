@@ -1,6 +1,10 @@
 package com.gbophuk0s.test.assignment.core.service;
 
+import java.util.List;
+
 public interface CrudService<T> {
+
+    List<T> findAll();
 
     T create(T objectSpec);
 

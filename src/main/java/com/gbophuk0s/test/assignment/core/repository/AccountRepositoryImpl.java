@@ -17,6 +17,23 @@ import com.gbophuk0s.test.assignment.core.model.Currency;
 public class AccountRepositoryImpl implements AccountRepository {
 
     @Override
+    public List<Account> findAll(Connection connection) throws SQLException {
+        String sql = "" +
+            "SELECT * FROM account";
+
+        try (PreparedStatement statement = connection.prepareStatement(sql)) {
+            ResultSet resultSet = statement.executeQuery();
+
+            List<Account> result = new ArrayList<>();
+            while (resultSet.next()) {
+                result.add(convert(resultSet));
+            }
+
+            return result;
+        }
+    }
+
+    @Override
     public Account create(Connection connection, Account spec) throws SQLException {
         String sql = "" +
             "INSERT INTO account (id, bank_id, client_id, name, currency, balance) " +
@@ -59,16 +76,7 @@ public class AccountRepositoryImpl implements AccountRepository {
                 return Optional.empty();
             }
 
-            Account result = new Account();
-
-            result.setId(resultSet.getString("id"));
-            result.setBankId(resultSet.getObject("bank_id").toString());
-            result.setClientId(resultSet.getObject("client_id").toString());
-            result.setCurrency(Currency.create(resultSet.getString("currency")));
-            result.setName(resultSet.getString("name"));
-            result.setBalance(resultSet.getBigDecimal("balance"));
-
-            return Optional.of(result);
+            return Optional.of(convert(resultSet));
         }
     }
 
@@ -119,20 +127,24 @@ public class AccountRepositoryImpl implements AccountRepository {
 
             List<Account> result = new ArrayList<>();
             while (resultSet.next()) {
-                Account account = new Account();
-
-                account.setId(resultSet.getString("id"));
-                account.setBankId(resultSet.getObject("bank_id").toString());
-                account.setClientId(resultSet.getObject("client_id").toString());
-                account.setCurrency(Currency.create(resultSet.getString("currency")));
-                account.setName(resultSet.getString("name"));
-                account.setBalance(resultSet.getBigDecimal("balance"));
-
-                result.add(account);
+                result.add(convert(resultSet));
             }
 
             return result;
         }
+    }
+
+    private Account convert(ResultSet resultSet) throws SQLException {
+        Account account = new Account();
+
+        account.setId(resultSet.getString("id"));
+        account.setBankId(resultSet.getObject("bank_id").toString());
+        account.setClientId(resultSet.getObject("client_id").toString());
+        account.setCurrency(Currency.create(resultSet.getString("currency")));
+        account.setName(resultSet.getString("name"));
+        account.setBalance(resultSet.getBigDecimal("balance"));
+
+        return account;
     }
 
 }

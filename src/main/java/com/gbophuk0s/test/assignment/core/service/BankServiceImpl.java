@@ -1,6 +1,7 @@
 package com.gbophuk0s.test.assignment.core.service;
 
 import java.math.BigDecimal;
+import java.util.List;
 import java.util.Objects;
 
 import org.apache.logging.log4j.LogManager;
@@ -27,6 +28,13 @@ public class BankServiceImpl extends AbstractService implements BankService {
         this.clientService = new ClientServiceImpl();
         this.accountService = new AccountServiceImpl();
         this.bankRepository = new BankRepositoryImpl();
+    }
+
+    @Override
+    public List<Bank> findAll() {
+        return newTransaction(connection -> {
+            return bankRepository.findAll(connection);
+        });
     }
 
     @Override

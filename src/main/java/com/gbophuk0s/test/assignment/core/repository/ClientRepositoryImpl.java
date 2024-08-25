@@ -4,6 +4,8 @@ import java.sql.Connection;
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.SQLException;
+import java.util.ArrayList;
+import java.util.List;
 import java.util.Objects;
 import java.util.Optional;
 import java.util.UUID;
@@ -12,6 +14,23 @@ import com.gbophuk0s.test.assignment.core.ObjectNotFoundException;
 import com.gbophuk0s.test.assignment.core.model.Client;
 
 public class ClientRepositoryImpl implements ClientRepository {
+
+    @Override
+    public List<Client> findAll(Connection connection) throws SQLException {
+        String sql = "" +
+            "SELECT * FROM client";
+
+        try (PreparedStatement statement = connection.prepareStatement(sql)) {
+            ResultSet resultSet = statement.executeQuery();
+
+            List<Client> result = new ArrayList<>();
+            while (resultSet.next()) {
+                result.add(convert(resultSet));
+            }
+
+            return result;
+        }
+    }
 
     @Override
     public Client create(Connection connection, Client spec) throws SQLException {
@@ -50,13 +69,7 @@ public class ClientRepositoryImpl implements ClientRepository {
                 return Optional.empty();
             }
 
-            Client result = new Client();
-
-            result.setId(resultSet.getString("id"));
-            result.setName(resultSet.getString("name"));
-            result.setType(Client.Type.valueOf(resultSet.getString("type")));
-
-            return Optional.of(result);
+            return Optional.of(convert(resultSet));
         }
     }
 
@@ -89,6 +102,16 @@ public class ClientRepositoryImpl implements ClientRepository {
 
             statement.execute();
         }
+    }
+
+    private Client convert(ResultSet resultSet) throws SQLException {
+        Client client = new Client();
+
+        client.setId(resultSet.getString("id"));
+        client.setName(resultSet.getString("name"));
+        client.setType(Client.Type.valueOf(resultSet.getString("type")));
+
+        return client;
     }
 
 }
